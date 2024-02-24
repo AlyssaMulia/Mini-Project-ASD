@@ -164,7 +164,10 @@ def update():
         print("> TIKET KONSER TIDAK DITEMUKAN")
 
 def delete():
-    print("\n   +-------- HAPUS TIKET KONSER --------+")
+    print("""
+    +-----------------------------------+
+    |        HAPUS TIKET KONSER         |
+    +-----------------------------------+""")
     read()
     while True:
         tanya = input("\n    apakah anda ingin menghapus data (y/t): ").lower()
