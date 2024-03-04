@@ -1,4 +1,4 @@
-# Mini-Project-Pertemuan-1
+# Mini-Project-ASD
 Nama : Alyssa Dwiana Mulia
 
 NIM : 2309116009
