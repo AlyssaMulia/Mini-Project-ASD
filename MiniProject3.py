@@ -53,7 +53,7 @@ class SingleLinkedList:
         return smaller_head
 
     def sortAscendingHarga(self):
-        self.head = self.quickSort(self.head)
+        self.head = self.quickSortHarga(self.head)
 
     def sortDescendingaHarga(self):
         self.sortAscendingHarga()
@@ -62,7 +62,7 @@ class SingleLinkedList:
         while current is not None:
             next_node = current.next
             current.next = prev
-            current.prev = next_node  # Perlu mengubah arah prev
+            current.prev = next_node
             prev = current
             current = next_node
         self.head = prev
@@ -109,7 +109,7 @@ class SingleLinkedList:
         while current is not None:
             next_node = current.next
             current.next = prev
-            current.prev = next_node  # Perlu mengubah arah prev
+            current.prev = next_node
             prev = current
             current = next_node
         self.head = prev
