@@ -22,72 +22,78 @@ class SingleLinkedList:
         self.head = None
 
     def JumpSearchNama(self, cari_nama):
-        if self.head is None:
-            print('\n   > Belum ada tiket konser yang terdaftar')
-            return
+        length = self.get_size()
+        if length == 0:
+            return None
 
-        prev_node = None
+        block_size = int(length ** 0.5)
         current_node = self.head
-        step = int(math.sqrt(self.get_size()))
+        prev_node = None
 
-        while current_node is not None:
-            
-            if current_node.data.konser == cari_nama:  
-                print(f"""
-    Nama Konser  : {current_node.data.konser}
-    Tanggal      : {current_node.data.tanggal}
-    Lokasi       : {current_node.data.lokasi}
-    Harga        : Rp {current_node.data.harga}
-    Jumlah Tiket : {current_node.data.jumlah_tiket}""")
-                print(f'\n  <<< Tiket konser dengan nama {cari_nama} ditemukan >>>\n')
-                return
+        while current_node and current_node.data.konser < cari_nama:
             prev_node = current_node
-            current_node = current_node.next
-
-            if current_node is None:
-                print (f'\n<<< tiket konser dengan nama konser{cari_nama} tidak ditemukan >>>')
-                return
-
-            for i in range(step - 1):
-                if current_node is not None:
-                    prev_node = current_node
+            for _ in range(min(block_size, length)):
+                if current_node.next:
                     current_node = current_node.next
-                else:
-                    break
+            length -= block_size
+
+        while prev_node and prev_node.data.konser < cari_nama:
+            prev_node = prev_node.next
+
+        if prev_node and prev_node.data.konser == cari_nama:
+            return prev_node
+        else:
+            return None
+        
+    def pencarian_nama(self, cari_nama):
+        hasil = self.JumpSearchNama(cari_nama)
+        if hasil:
+            print(f"\n  <<< Tiket konser dengan nama {cari_nama} ditemukan >>>")
+            print(f"""
+    Nama Konser  : {hasil.data.konser}  
+    Tanggal      : {hasil.data.tanggal}
+    Lokasi       : {hasil.data.lokasi}
+    Harga        : Rp {hasil.data.harga}
+    Jumlah Tiket : {hasil.data.jumlah_tiket}""")
+        else:
+            print(f"\n  <<< Tiket konser dengan nama {cari_nama} tidak ditemukan >>>\n")
 
     def JumpSearchLokasi(self, cari_lokasi):
-        if self.head is None:
-            print('\n   > Belum ada tiket konser yang terdaftar')
-            return
+        length = self.get_size()
+        if length == 0:
+            return None
 
-        prev_node = None
+        block_size = int(length ** 0.5)
         current_node = self.head
-        step = int(math.sqrt(self.get_size()))
+        prev_node = None
 
-        while current_node is not None:
-            
-            if current_node.data.lokasi == cari_lokasi:  
-                print(f"""
-    Nama Konser  : {current_node.data.konser}
-    Tanggal      : {current_node.data.tanggal}
-    Lokasi       : {current_node.data.lokasi}
-    Harga        : Rp {current_node.data.harga}
-    Jumlah Tiket : {current_node.data.jumlah_tiket}""")
-                print(f'\n  <<< Tiket konser dengan lokasi {cari_lokasi} ditemukan >>>\n')
-                return
+        while current_node and current_node.data.lokasi < cari_lokasi:
             prev_node = current_node
-            current_node = current_node.next
-
-            if current_node is None:
-                print (f'\n  <<< Tiket konser dengan lokasi {cari_lokasi} tidak ditemukan >>>')
-                return
-
-            for i in range(step - 1):
-                if current_node is not None:
-                    prev_node = current_node
+            for _ in range(min(block_size, length)):
+                if current_node.next:
                     current_node = current_node.next
-                else:
-                    break
+            length -= block_size
+
+        while prev_node and prev_node.data.lokasi < cari_lokasi:
+            prev_node = prev_node.next
+
+        if prev_node and prev_node.data.lokasi == cari_lokasi:
+            return prev_node
+        else:
+            return None
+        
+    def pencarian_lokasi(self, cari_lokasi):
+        hasil = self.JumpSearchLokasi(cari_lokasi)
+        if hasil:
+            print(f"\n  <<< Tiket konser dengan nama {cari_lokasi} ditemukan >>>")
+            print(f"""
+    Nama Konser  : {hasil.data.konser}  
+    Tanggal      : {hasil.data.tanggal}
+    Lokasi       : {hasil.data.lokasi}
+    Harga        : Rp {hasil.data.harga}
+    Jumlah Tiket : {hasil.data.jumlah_tiket}""")
+        else:
+            print(f"\n  <<< Tiket konser dengan nama {cari_lokasi} tidak ditemukan >>>\n")
 
     def get_size(self):
         current_node = self.head
@@ -363,10 +369,10 @@ class SingleLinkedList:
 
 manager = SingleLinkedList()
 
-tiket1 = TiketKonser("ren", "10/04/2024", "Gedung", 150000, 100)
-tiket2 = TiketKonser("alisa", "10/04/2024", "lama", 100000, 100)
-tiket3 = TiketKonser("diva", "10/04/2024", "konser", 200000, 100)
-tiket4 = TiketKonser("amir", "10/04/2024", "balikpapan", 200000, 100)
+tiket1 = TiketKonser("The Eras Tour", "14/05/2025", "Jakarta International Stadium", 1500000, 100)
+tiket2 = TiketKonser("We The Fest", "21/07/2024", "GBK Senayan", 100000, 150)
+tiket3 = TiketKonser("HONNE", "07/07/2024", "Stadion Segiri", 2000000, 200)
+tiket4 = TiketKonser("Coldplay", "10/10/2024", "GWK Cultural Park", 200000, 300)
 manager.tambah_tiket(tiket1)
 manager.tambah_tiket(tiket2)
 manager.tambah_tiket(tiket3)
@@ -420,8 +426,6 @@ def create():
                 break
         except ValueError:
             print("> INPUT HARUS BERUPA ANGKA")
-
-    
 
     tiket_baru = TiketKonser(konser, tanggal, lokasi, harga, jumlah_tiket)
     manager.tambah_tiket(tiket_baru)
@@ -538,15 +542,16 @@ def searching():
 
     if cari == "1":
         cari_nama = input("    Masukkan nama tiket yang ingin dicari: ")
-        manager.sortAscendingKonser()
-        manager.JumpSearchNama(cari_nama)
+        manager.sortAscendingKonser()  
+        manager.pencarian_nama(cari_nama)
     elif cari == "2":
         cari_lokasi = input("    Masukkan lokasi konser yang ingin dicari: ")
-        manager.sortAscendingLokasi
-        manager.JumpSearchLokasi(cari_lokasi)
+        manager.sortAscendingLokasi()  
+        manager.pencarian_lokasi(cari_lokasi)
     else:
         print("  > Pilihan tidak valid. Silakan pilih kembali.")
     return
+
     
 while True:
     print("""
