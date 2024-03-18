@@ -243,52 +243,68 @@ class SingleLinkedList:
             current = next_node
         self.head = prev
 
-    def tambah_tiket(self, tiket):
-        while True:
-            print("""
-    [1] Tambah di awal
-    [2] Tambah di antara
-    [3] Tambah di akhir
-    """)
-            pilihan = input("    Pilih lokasi untuk menambah tiket (1/2/3): ")
+    def buat(self, konser, tanggal, lokasi, harga, jumlah_tiket):
+        while True :
+            print("    [1] Tambah di awal")
+            print("    [2] Tambah di akhir")
+            print("    [3] Tambah di antara")
+            pilihan = input("    Masukkan pilihan anda : ")
             if pilihan == "1":
-                new_node = DataTiket(tiket)
-                new_node.next = self.head
-                self.head = new_node
-                os.system("cls")
-                print(f"\n  <<< Tiket konser {tiket.konser} telah ditambahkan di awal >>>")
-                break
-            elif pilihan == "2":
-                print("\n   Daftar Tiket Konser:")
-                self.tampilkan_daftar_tiket()
-                posisi = input("\n    Masukkan posisi setelah tiket mana ingin menambah tiket baru: ")
-                current = self.head
-                while current:
-                    if current.data.konser == posisi:
-                        new_node = DataTiket(tiket)
-                        new_node.next = current.next
-                        current.next = new_node
-                        os.system("cls")
-                        print(f"\n  <<< Tiket konser {tiket.konser} telah ditambahkan di antara >>>")
-                        break
-                    current = current.next
-                else:
-                    print("> TIKET TIDAK DITEMUKAN")
-                    continue
-                break
+                manager.TambahAwal(konser, tanggal, lokasi, harga, jumlah_tiket)
+                print("<<< Tiket konser berhasil ditambahkan diawal >>>")
+                manager.tampilkan_daftar_tiket()
+            elif pilihan == "2" :
+                manager.TambahAkhir(konser, tanggal, lokasi, harga, jumlah_tiket)
+                print("<<< Tiket konser berhasil ditambahkan diakhir >>>")
+                manager.tampilkan_daftar_tiket()
             elif pilihan == "3":
-                if self.head is None:
-                    self.head = DataTiket(tiket)
-                else:
-                    current = self.head
-                    while current.next:
-                        current = current.next
-                    current.next = DataTiket(tiket)
-                    os.system("cls")
-                print(f"\n  <<< Tiket konser {tiket.konser} telah ditambahkan di akhir >>>")
+                manager.TambahDiantara(konser, tanggal, lokasi, harga, jumlah_tiket)
+                print("<<< Tiket konser berhasil ditambahkan diantara >>>")
+                manager.tampilkan_daftar_tiket()
                 break
+            break
+
+    def TambahAwal(self, konser, tanggal, lokasi, harga, jumlah_tiket):
+        Node_baru = DataTiket(TiketKonser(konser, tanggal, lokasi, harga, jumlah_tiket))
+        if self.head is None:
+            self.head = Node_baru
+            self.tail = Node_baru
+        else:
+            Node_baru.next = self.head
+            self.head.prev = Node_baru
+            self.head = Node_baru
+
+    def TambahAkhir(self, konser, tanggal, lokasi, harga, jumlah_tiket):
+        Node_baru = DataTiket(TiketKonser(konser, tanggal, lokasi, harga, jumlah_tiket))
+        if self.head is None:
+            self.head = Node_baru
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = Node_baru
+            Node_baru.prev = current
+
+    def TambahDiantara(self, konser, tanggal, lokasi, harga, jumlah_tiket):
+        while True:
+            print("\n   Daftar Tiket Konser:")
+            self.tampilkan_daftar_tiket()
+            posisi = input("\n    Masukkan posisi setelah tiket mana ingin menambah tiket baru: ")
+            current = self.head
+            while current:
+                if current.data.konser == posisi:
+                    new_tiket = TiketKonser(konser, tanggal, lokasi, harga, jumlah_tiket)
+                    new_node = DataTiket(new_tiket)
+                    new_node.next = current.next
+                    current.next = new_node
+                    os.system("cls")
+                    print(f"\n  <<< Tiket konser {konser} telah ditambahkan di antara >>>")
+                    break
+                current = current.next
             else:
-                print("> PILIHAN TIDAK VALID")
+                print("> TIKET TIDAK DITEMUKAN")
+                continue
+            break
 
     def tampilkan_daftar_tiket(self):
         current = self.head
@@ -368,14 +384,10 @@ class SingleLinkedList:
 
 manager = SingleLinkedList()
 
-tiket1 = TiketKonser("The Eras Tour", "14/05/2025", "Jakarta International Stadium", 1500000, 100)
-tiket2 = TiketKonser("We The Fest", "21/07/2024", "GBK Senayan", 100000, 150)
-tiket3 = TiketKonser("HONNE", "07/07/2024", "Stadion Segiri", 2000000, 200)
-tiket4 = TiketKonser("Coldplay", "10/10/2024", "GWK Cultural Park", 200000, 300)
-manager.tambah_tiket(tiket1)
-manager.tambah_tiket(tiket2)
-manager.tambah_tiket(tiket3)
-manager.tambah_tiket(tiket4)
+manager.TambahAwal("The Eras Tour", "14/05/2025", "Jakarta International Stadium", 1500000, 100)
+manager.TambahAwal("We The Fest", "21/07/2024", "GBK Senayan", 100000, 150)
+manager.TambahAwal("HONNE", "07/07/2024", "Stadion Segiri", 2000000, 200)
+manager.TambahAwal("Coldplay", "10/10/2024", "GWK Cultural Park", 200000, 300)
 
 def create():
     print("""
@@ -425,9 +437,7 @@ def create():
                 break
         except ValueError:
             print("> INPUT HARUS BERUPA ANGKA")
-
-    tiket_baru = TiketKonser(konser, tanggal, lokasi, harga, jumlah_tiket)
-    manager.tambah_tiket(tiket_baru)
+    manager.buat(konser, tanggal, lokasi, harga, jumlah_tiket)
 
 def read():
     print("\n   +-------- DAFTAR TIKET KONSER --------+")
