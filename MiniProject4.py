@@ -1,5 +1,4 @@
 import os
-import math
 from datetime import datetime
 os.system("cls")
 
@@ -507,7 +506,7 @@ def sorting():
     print("  [5] Urutkan berdasarkan lokasi konser A-Z")
     print("  [6] Urutkan berdasarkan lokasi konser Z-A")
 
-    pilih = input("  Masukkan pilihan (1/2/3/4/6): ")
+    pilih = input("  Masukkan pilihan (1/2/3/4/5/6): ")
 
     if pilih == "1":
         manager.sortAscendingHarga()
